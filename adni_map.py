@@ -4,6 +4,7 @@ import time
 import os
 import pandas as pd
 import glob
+import shutil
 
 # Webdriver Location
 PATH = input("Please enter the location of Chrome Webdriver:")
@@ -53,7 +54,7 @@ for i in range(int(len(link_list)/2)):
     link = driver.find_element_by_link_text(l_name)
     link.click()
     print("Downloading " + l_name + " ...")
-    while glob.glob(mypath + "/*.csv")==[]:
+    while glob.glob(mypath + "/*.csv") == [] and glob.glob(mypath + "/*") != []:
         time.sleep(3)
     print(l_name + " Downloaded")
     f_name = glob.glob(mypath + "/*.csv")[0]
@@ -64,5 +65,5 @@ for i in range(int(len(link_list)/2)):
     print(l_name + " Deleted")
 
 file_name_map = pd.DataFrame({"file_label": file_label, "file_name": file_name})
-os.rmdir(mypath)
+shutil.rmtree(mypath, ignore_errors=True)
 file_name_map.to_csv(mypath_download+"/ADNI_map.csv")
