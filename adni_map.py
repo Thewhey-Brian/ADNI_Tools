@@ -7,6 +7,7 @@ import glob
 
 # Webdriver Location
 PATH = input("Please enter the location of Chrome Webdriver:")
+PATH = PATH + "/chromedriver"
 # Download Location Path
 mypath_download = input("Please enter the desired download location:")
 # Username of ADNI
