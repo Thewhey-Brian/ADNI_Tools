@@ -47,7 +47,7 @@ link_list = driver.find_elements_by_class_name("contentFont")
 file_label = []
 file_name =[]
 # range(int(len(link_list)/2))
-for i in range(6):
+for i in range(int(len(link_list)/2)):
     l_name = link_list[2*i].text
     file_label.append(l_name)
     link = driver.find_element_by_link_text(l_name)
