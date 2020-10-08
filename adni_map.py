@@ -54,18 +54,18 @@ for i in range(int(len(link_list)/2)):
     file_label.append(l_name)
     link = driver.find_element_by_link_text(l_name)
     link.click()
-    print("Downloading " + l_name + " ...")
+    print("Downloading " + l_name + " ... " + "(" + str(i) + "/" + str(int(len(link_list)/2)) + ")")
     while glob.glob(os.path.join(mypath, '*')) == []:
         time.sleep(3)
     while glob.glob(os.path.join(mypath, '*'))[0].split(".")[-1] == "crdownload":
         time.sleep(2)
-    print(l_name + " Downloaded")
+    print("Downloaded " + l_name)
     f_name = glob.glob(os.path.join(mypath, '*'))[0]
     head, tail = os.path.split(f_name)
     file_name.append(tail)
-    print("File name " + tail + " added")
+    print("Added file name " + tail)
     os.remove(f_name)
-    print(l_name + " Deleted")
+    print("Deleted " + l_name)
 
 # Output
 file_name_map = pd.DataFrame({"file_label": file_label, "file_name": file_name})
