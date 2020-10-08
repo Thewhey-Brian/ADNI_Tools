@@ -48,16 +48,18 @@ link_list = driver.find_elements_by_class_name("contentFont")
 file_label = []
 file_name =[]
 # range(int(len(link_list)/2))
-for i in range(int(len(link_list)/2)):
+for i in range(12):
     l_name = link_list[2*i].text
     file_label.append(l_name)
     link = driver.find_element_by_link_text(l_name)
     link.click()
     print("Downloading " + l_name + " ...")
-    while glob.glob(mypath + "/*.csv") == [] and glob.glob(mypath + "/*") != []:
+    while glob.glob(os.path.join(mypath, '*')) == []:
         time.sleep(3)
+    while glob.glob(os.path.join(mypath, '*'))[0].split(".")[-1] == "crdownload":
+        time.sleep(2)
     print(l_name + " Downloaded")
-    f_name = glob.glob(mypath + "/*.csv")[0]
+    f_name = glob.glob(os.path.join(mypath, '*'))[0]
     head, tail = os.path.split(f_name)
     file_name.append(tail)
     print("File name " + tail + " added")
