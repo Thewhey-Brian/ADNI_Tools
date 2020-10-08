@@ -20,6 +20,7 @@ mypath = mypath_download + "/adni_table"
 if not os.path.exists(mypath):
     os.makedirs(mypath)
 
+# Open Chrome and Navigate to the Source
 chrome_options = webdriver.ChromeOptions()
 prefs = {'download.default_directory' : mypath}
 chrome_options.add_experimental_option('prefs', prefs)
@@ -45,10 +46,10 @@ link_all.click()
 link_list = [];
 link_list = driver.find_elements_by_class_name("contentFont")
 
+# Download, Get Name, and Delete
 file_label = []
 file_name =[]
-# range(int(len(link_list)/2))
-for i in range(12):
+for i in range(int(len(link_list)/2)):
     l_name = link_list[2*i].text
     file_label.append(l_name)
     link = driver.find_element_by_link_text(l_name)
@@ -66,6 +67,7 @@ for i in range(12):
     os.remove(f_name)
     print(l_name + " Deleted")
 
+# Output
 file_name_map = pd.DataFrame({"file_label": file_label, "file_name": file_name})
 shutil.rmtree(mypath, ignore_errors=True)
 file_name_map.to_csv(mypath_download+"/ADNI_map.csv")
