@@ -1,0 +1,7 @@
+selenium
+time
+numpy
+pandas
+glob
+os
+
