@@ -14,5 +14,6 @@ PySocks==1.7.1
 python-dateutil==2.8.1
 pytz==2020.1
 selenium==3.141.0
+sh==1.14.0
 six==1.15.0
 urllib3 @ file:///tmp/build/80754af9/urllib3_1597086586889/work
