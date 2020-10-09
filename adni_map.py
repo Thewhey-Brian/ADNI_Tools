@@ -5,6 +5,7 @@ import os
 import pandas as pd
 import glob
 import shutil
+import sh
 
 # Webdriver Location
 PATH = input("Please enter the location of Chrome Webdriver:")
@@ -54,20 +55,31 @@ for i in range(int(len(link_list)/2)):
     file_label.append(l_name)
     link = driver.find_element_by_link_text(l_name)
     link.click()
-    print("Downloading " + l_name + " ... " + "(" + str(i) + "/" + str(int(len(link_list)/2)) + ")")
+    print("(" + str(i+1) + "/" + str(int(len(range(int(len(link_list)/2)))/2)) + ")" + "Downloading " + l_name + " ... ")
     while glob.glob(os.path.join(mypath, '*')) == []:
-        time.sleep(3)
+        time.sleep(0.1)
+    t = 1
     while glob.glob(os.path.join(mypath, '*'))[0].split(".")[-1] == "crdownload":
         time.sleep(2)
-    print("Downloaded " + l_name)
+        t = t + 1
+        if t>120:
+            break
     f_name = glob.glob(os.path.join(mypath, '*'))[0]
-    head, tail = os.path.split(f_name)
-    file_name.append(tail)
-    print("Added file name " + tail)
-    os.remove(f_name)
-    print("Deleted " + l_name)
+    sh.rm(glob.glob(os.path.join(mypath, '*')))
+    if f_name.split(".")[-1] == "crdownload":
+        m_name = ".".join(f_name.split(".")[:-1])
+        head, tail = os.path.split(m_name)
+        file_name.append(tail)
+        print("Added file name " + tail)
+    else:
+        head, tail = os.path.split(f_name)
+        file_name.append(tail)
+        print("Added file name " + tail)
 
 # Output
 file_name_map = pd.DataFrame({"file_label": file_label, "file_name": file_name})
 shutil.rmtree(mypath, ignore_errors=True)
 file_name_map.to_csv(mypath_download+"/ADNI_map.csv")
+
+# Quit Driver
+driver.quit()
