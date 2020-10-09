@@ -52,6 +52,8 @@ file_label = []
 file_name =[]
 for i in range(int(len(link_list)/2)):
     l_name = link_list[2*i].text
+    if l_name in file_label:
+        continue
     file_label.append(l_name)
     link = driver.find_element_by_link_text(l_name)
     link.click()
