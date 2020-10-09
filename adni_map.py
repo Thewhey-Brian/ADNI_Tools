@@ -55,16 +55,20 @@ for i in range(int(len(link_list)/2)):
     file_label.append(l_name)
     link = driver.find_element_by_link_text(l_name)
     link.click()
-    print("(" + str(i+1) + "/" + str(int(len(range(int(len(link_list)/2)))/2)) + ")" + "Downloading " + l_name + " ... ")
+    print("(" + str(i+1) + "/" + str(int(len(range(int(len(link_list)/2))))) + ")" + "Downloading " + l_name + " ... ")
     while glob.glob(os.path.join(mypath, '*')) == []:
-        time.sleep(0.1)
-    t = 1
-    while glob.glob(os.path.join(mypath, '*'))[0].split(".")[-1] == "crdownload":
-        time.sleep(2)
-        t = t + 1
-        if t>120:
-            break
-    f_name = glob.glob(os.path.join(mypath, '*'))[0]
+        time.sleep(1)
+    time.sleep(1/2)
+    all_name = glob.glob(os.path.join(mypath, '*'))
+    for j in range(len(all_name)):
+        if all_name[j].split(".")[-1] == "crdownload":
+            head, tail = os.path.split(".".join(all_name[j].split(".")[:-1]))
+            if tail not in file_name:
+                f_name = all_name[j]
+        else:
+            head, tail = os.path.split(all_name[j])
+            if tail not in file_name:
+                f_name = all_name[j]
     sh.rm(glob.glob(os.path.join(mypath, '*')))
     if f_name.split(".")[-1] == "crdownload":
         m_name = ".".join(f_name.split(".")[:-1])
