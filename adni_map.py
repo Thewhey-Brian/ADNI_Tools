@@ -64,21 +64,15 @@ for i in range(int(len(link_list)/2)):
         if all_name[j].split(".")[-1] == "crdownload":
             head, tail = os.path.split(".".join(all_name[j].split(".")[:-1]))
             if tail not in file_name:
-                f_name = all_name[j]
+                file_name.append(tail)
+                print("Added file name " + tail)
         else:
             head, tail = os.path.split(all_name[j])
             if tail not in file_name:
                 f_name = all_name[j]
+                file_name.append(tail)
+                print("Added file name " + tail)
     sh.rm(glob.glob(os.path.join(mypath, '*')))
-    if f_name.split(".")[-1] == "crdownload":
-        m_name = ".".join(f_name.split(".")[:-1])
-        head, tail = os.path.split(m_name)
-        file_name.append(tail)
-        print("Added file name " + tail)
-    else:
-        head, tail = os.path.split(f_name)
-        file_name.append(tail)
-        print("Added file name " + tail)
 
 # Output
 file_name_map = pd.DataFrame({"file_label": file_label, "file_name": file_name})
