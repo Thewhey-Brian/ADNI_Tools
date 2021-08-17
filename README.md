@@ -9,7 +9,7 @@
 3. Required modules in [requirements.txt](https://github.com/Thewhey-Brian/ADNI_Tools/blob/master/requirements.txt).
 
 ## Installation
-You can use Git to clone the repository from GitHub to install the version:
+You can use Git to clone the repository from GitHub to install the latest version:
 ```
 git clone https://github.com/Thewhey-Brian/ADNI_Tools.git
 cd ADNI_Tools
@@ -20,4 +20,6 @@ python3 adni_map.py
 ## Output
 A csv file with map for ADNI tables.
 
+## Note:
+If your connection is unstable, you could break down the full table into several smaller tables (by changing the start and end points of the for loop).
  
