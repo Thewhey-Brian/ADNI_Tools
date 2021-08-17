@@ -1,19 +1,4 @@
-brotlipy==0.7.0
-certifi==2020.6.20
-cffi @ file:///opt/concourse/worker/volumes/live/74b22aae-8eb9-44eb-6c00-a8a07af62b36/volume/cffi_1600699174113/work
-cryptography @ file:///opt/concourse/worker/volumes/live/449c9d42-da39-4138-6bf0-843317a1ad24/volume/cryptography_1601046862310/work
-idna @ file:///tmp/build/80754af9/idna_1593446292537/work
-mkl-fft==1.2.0
-mkl-random==1.1.1
-mkl-service==2.3.0
-numpy @ file:///opt/concourse/worker/volumes/live/40d975a3-7e82-44c8-53df-feccdbce8b96/volume/numpy_and_numpy_base_1596233859108/work
-pandas @ file:///opt/concourse/worker/volumes/live/bfd63b8c-6035-4ed3-5bce-5690df409bf9/volume/pandas_1602088141563/work
-pycparser @ file:///tmp/build/80754af9/pycparser_1594388511720/work
-pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1594392929924/work
-PySocks==1.7.1
-python-dateutil==2.8.1
-pytz==2020.1
+numpy==1.18.1
+pandas==0.25.3
 selenium==3.141.0
-sh==1.14.0
-six==1.15.0
-urllib3 @ file:///tmp/build/80754af9/urllib3_1597086586889/work
+sh==1.14.1
