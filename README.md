@@ -6,7 +6,7 @@
    - The desired download location
    - Username of ADNI
    - Password of ADNI
-3. Required modules in [requirements.txt](../ADNI_Tools/requirements.txt).
+3. Required modules in [requirements.txt](ADNI_Tools/requirements.txt).
 
 ## Installation
 You can use Git to clone the repository from GitHub to install the version:
