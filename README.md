@@ -21,5 +21,5 @@ python3 adni_map.py
 A csv file with map for ADNI tables.
 
 ## Note:
-If your connection is unstable, you could break down the full table into several smaller tables (by changing the start and end points of the for loop).
+If your internet connection is unstable, you could break down the full table into several smaller tables (by changing the start and end points of the for loop).
  
