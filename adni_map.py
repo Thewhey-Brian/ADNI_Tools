@@ -9,6 +9,7 @@ import os
 import shutil
 import sh
 import subprocess
+import getpass
 
 try:
     # Webdriver Location
@@ -19,7 +20,7 @@ try:
     # Username of ADNI
     email_key = input("Please enter the ADNI Username: ")
     # Password of ADNI
-    pw_key = input("Please enter the ADNI Password: ")
+    pw_key = getpass.getpass("Please enter the ADNI Password: ")
     # Create Download Location
     mypath = mypath_download + "/adni_table"
     if not os.path.exists(mypath):
