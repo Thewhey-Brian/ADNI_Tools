@@ -108,8 +108,17 @@ try:
         version = info_list[2*i+1].text.replace('  Version: ', '')
         file_label.append(l_name)
         file_version.append(version)
+        if "PDF" in l_name or "Methods" in l_name or "Documentation" in l_name or "Document" in l_name or "METHODS" in l_name:
+            file_name.append('')
+            file_vars.append('')
+            file_vars.append('Methods file.')
+            time.sleep(1)
+            print("Skip methods file.")
+            continue
         try:
             link_list[i].click()
+            time.sleep(1)
+            driver.find_element_by_class_name("preparing-download-close-btn").click()
         except:
             pass
         print("(" + str(i) + "/" + str(int(len(link_list))) + ")" + "Downloading " + l_name + " ... ")
