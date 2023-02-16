@@ -1,4 +1,8 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 import time
@@ -12,9 +16,6 @@ import subprocess
 import getpass
 
 try:
-    # Webdriver Location
-    PATH = input("Please enter the location of Chrome Webdriver: ")
-    PATH = PATH + "/chromedriver"
     # Download Location Path
     mypath_download = input("Please enter the desired download location: ")
     # Username of ADNI
@@ -27,7 +28,7 @@ try:
         os.makedirs(mypath)
         print("Temporary directory created in " + mypath)
 except:
-    print("Unexpected input")
+    print("Unexpected inputs.")
 
 def clean_tr(path, bar): 
     now = time.time()
@@ -71,27 +72,36 @@ try:
     chrome_options = webdriver.ChromeOptions() 
     prefs = {'download.default_directory' : mypath}
     chrome_options.add_experimental_option('prefs', prefs)
-    driver = webdriver.Chrome(PATH, options=chrome_options)
-    driver.get("https://ida.loni.usc.edu/pages/access/studyData.jsp?categoryId=12")
-    email = driver.find_element_by_name("userEmail")
-    pw = driver.find_element_by_name("userPassword")
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    driver.get("https://ida.loni.usc.edu/login.jsp")
+    print("Webpage opened.")
+    time.sleep(6)
+    driver.find_element(By.CLASS_NAME, "ida-cookie-policy-accept").click()
+    print("Cookie accepted.")
+    time.sleep(6)
+    driver.find_element(By.CLASS_NAME, "ida-user-menu-icon").click()
+    time.sleep(2)
+    email = driver.find_element(By.NAME, "userEmail")
+    pw = driver.find_element(By.NAME, "userPassword")
     email.send_keys(email_key)
     pw.send_keys(pw_key)
     pw.send_keys(Keys.RETURN)
-    driver.find_element_by_link_text("PROJECTS").click()
-    driver.find_element_by_link_text("ADNI").click()
-    driver.find_element_by_link_text("DOWNLOAD").click()
-    driver.find_element_by_link_text("Study Data").click()
-    driver.find_element_by_id("ygtvlabelel48").click()
-    # get all contents under contentFont class; even-link, odd-version
+    print("Login information entered.")
+    time.sleep(2)
+    driver.find_element(By.CLASS_NAME, "download").click()
+    time.sleep(2)
+    driver.find_element(By.XPATH, "/html/body/div[1]/div/div/div/div[2]/div[2]/div[2]/div/div[4]/div[2]/div/div[1]/span").click()
+    driver.find_element(By.ID, "ygtvlabelel48").click()
+    print("Directed to data downloading page.")
     info_list = [];
-    info_list = driver.find_elements_by_xpath("//td[@class='contentFont']")
+    info_list = driver.find_elements(By.XPATH, "//td[@class='contentFont']")
     link_list = [];
-    link_list = driver.find_elements_by_xpath("//td[@class='contentFont']/a")
-    driver.execute_script('''window.open("http://bings.com","_blank");''')
+    link_list = driver.find_elements(By.XPATH, "//td[@class='contentFont']/a")
+    driver.execute_script('''window.open("http://google.com","_blank");''')
     driver.switch_to.window(driver.window_handles[1])
     driver.get('chrome://downloads')
     driver.switch_to.window(driver.window_handles[0])
+    print("Loaded download page.")
     file_label = []
     file_name =[]
     file_vars = []
@@ -109,9 +119,9 @@ try:
         version = info_list[2*i+1].text.replace('  Version: ', '')
         file_label.append(l_name)
         file_version.append(version)
-        if "PDF" in l_name or "Methods" in l_name or "Documentation" in l_name or "Document" in l_name or "METHODS" in l_name:
+        if "PDF" in l_name or "Methods" in l_name or "Documentation" in l_name or "Document" in l_name or "METHODS" in l_name or "About" in l_name:
             file_name.append('')
-            file_vars.append('')
+            #file_vars.append('')
             file_vars.append('Methods file.')
             time.sleep(1)
             print("Skip methods file.")
@@ -119,17 +129,30 @@ try:
         try:
             link_list[i].click()
             time.sleep(1)
-            driver.find_element_by_class_name("preparing-download-close-btn").click()
+            driver.find_element(By.CLASS_NAME, "preparing-download-close-btn").click()
         except:
             pass
         print("(" + str(i) + "/" + str(int(len(link_list))) + ")" + "Downloading " + l_name + " ... ")
         # Check bad links
-        time.sleep(1)
+        time.sleep(2)
         if check_bl(mypath, 3):
             file_name.append('')
             file_vars.append('')
             err_file.append(l_name)
             print('Bad link')
+            continue
+        # Check pop-ups
+        time.sleep(3)
+        if len(driver.window_handles) > 2: 
+            time.sleep(1)
+            driver.switch_to.window(driver.window_handles[2])
+            time.sleep(1)
+            driver.close()
+            driver.switch_to.window(driver.window_handles[0])
+            file_name.append('')
+            file_vars.append('webpage_pdf')
+            lar_file.append(l_name)
+            print('Skip discription file ...')
             continue
         # Wait for downloading
         timeout = wait_dl(mypath, "crdownload", 60)
@@ -143,38 +166,38 @@ try:
             lar_file.append(l_name)
             print("Skip the large file ...")
             continue
-        # classify downloaded file type and add values
-        time.sleep(2)
-        name = glob.glob(os.path.join(mypath, '*'))
-        head, tail = os.path.split(name[0])
-        file_name.append(tail)
-        print("Added file name " + tail)
-        # directory
-        if len(name[0].split(".")) < 2 or os.path.isdir(name[0]):
-            file_vars.append('non-attributed/large')
-            err_file.append(l_name)
-            shutil.rmtree(name[0])
-            time.sleep(1)
-            print("Removed non-attributed/large file.")
-            continue
-        # non-csv file
-        if tail.split(".")[-1] != "csv":
-            file_vars.append('non-csv')
-            err_file.append(l_name)
+            # classify downloaded file type and add values
+            time.sleep(2)
+            name = glob.glob(os.path.join(mypath, '*'))
+            head, tail = os.path.split(name[0])
+            file_name.append(tail)
+            print("Added file name " + tail)
+            # directory
+            if len(name[0].split(".")) < 2 or os.path.isdir(name[0]):
+                file_vars.append('non-attributed/large')
+                err_file.append(l_name)
+                shutil.rmtree(name[0])
+                time.sleep(1)
+                print("Removed non-attributed/large file.")
+                continue
+            # non-csv file
+            if tail.split(".")[-1] != "csv":
+                file_vars.append('non-csv')
+                err_file.append(l_name)
+                os.remove(name[0])
+                time.sleep(1)
+                print("Removed non-csv file.")
+                continue
+            # csv file    
+            try:
+                file_vars.append(pd.read_csv(name[0]).columns.values.tolist())
+                print("Variables added")
+            except:
+                file_vars.append('not avaliable')
+                print("Variables not avaliable")
             os.remove(name[0])
-            time.sleep(1)
-            print("Removed non-csv file.")
-            continue
-        # csv file    
-        try:
-            file_vars.append(pd.read_csv(name[0]).columns.values.tolist())
-            print("Variables added")
-        except:
-            file_vars.append('not avaliable')
-            print("Variables not avaliable")
-        os.remove(name[0])
-        time.sleep(1) 
-        print("Removed file.")    
+            time.sleep(1) 
+            print("Removed file.") 
 except:
     print("Downloading error, please check the connection and try again")
 
@@ -183,10 +206,10 @@ try:
     file_name_map = pd.DataFrame({"file_label": file_label, 
                                   "file_name": file_name, 
                                   "file_version": file_version, 
-                                  "vars": file_vars})
-    print("Merge successfully,")
+                                  "vars": file_vars_tem})
+    print("File merge successfully.")
     shutil.rmtree(mypath, ignore_errors=True)
-    print("Temporary directory deleted")
+    print("Temporary directory deleted.")
     file_name_map.to_csv(mypath_download+"/ADNI_map.csv")
     print("ADNI_map.csv created in " + mypath_download + "/ADNI_map.csv")
 except:
