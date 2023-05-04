@@ -21,6 +21,11 @@ python3 adni_map.py
 
 ## Output
 A csv file with general dictionary information for ADNI database.
+｜file_label ｜ file_name ｜file_version｜ vars ｜
+｜ --------- ｜-----------｜------------｜------｜
+｜ADSP Phenotype Harmonization Consortium (PHC) - Composite Cognitive Scores Dictionary [ADNI1,GO,2,3]｜ADSP_PHC_COGN_DICT_10_05_22.csv｜2022-10-05 ｜	['ID', 'FLDNAME', 'TBLNAME', 'CRFNAME', 'QUESTION', 'TEXT', 'STATUS', 'DEPRULE']｜
+｜ADSP Phenotype Harmonization Consortium (PHC) - Composite Cognitive Scores Methods (PDF)｜PDF file skipped｜2022-10-05｜｜
+｜ADSP Phenotype Harmonization Consortium (PHC) - Composite Cognitive Scores [ADNI1,GO,2,3]｜ADSP_PHC_COGN_10_05_22.csv｜2022-10-05｜['RID', 'SUBJID', 'PHASE', 'VISCODE', 'VISCODE2', 'EXAMDATE', 'PHC_VISIT', 'PHC_Sex', 'PHC_Education', 'PHC_Ethnicity', 'PHC_Race’]｜
 
 ## Note:
 If your internet connection is unstable, you could break down the full table into several smaller tables (by changing the start and end points of the for loop in [adni_map.py](https://github.com/Thewhey-Brian/ADNI_Tools/blob/master/adni_map.py)).
