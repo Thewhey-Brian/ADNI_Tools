@@ -1,4 +1,7 @@
-# ADNI_MAP: Map for ADNI!
+# ADNI_Tools: Creating Map For ADNI Dataset!
+## Introduction
+ADNI is a longitudinal multisite study of mild cognitive impairment (MCI) and AD with clinical, imaging, genetic, and biomedical biomarkers. This study was initiated in 2004 and has been extended for 20 years by several phases. The first phase, called ADNI1 (2004-2010), recruited 800 participants, including 200 elderly controls, 400 MCI, and 200 AD. At this phase, brain imaging was measured by structure MRI and PET. The study was extended to phase ADNI-GO in 2009 (2009-2011), where an additional 200 early MCI patients were included. During this phase, the MR protocols were revised. The following phase ADNI2 (2011-2016), recruited additional 550 participants, where 150 were elderly controls, 100 were early MCI, 150 l were ate MCI, and 150 were AD. At the ADNI2 phase, researchers additionally measured amyloid PET with Florbetapir for all ADNI-GO and ADNI2 patients. Next, the ADNI3 (2016-2022) further recruited 133 elderly controls, 151 MCI, and 87 AD participants. During this phase, additional brain scan detecting tau PET was included. The ADNI_Tools provides a convenient way to create a map for the massive dataset, mapping the table names on the website, table names after downloading, variables in each table, and the version/time for each table. 
+
 ## Requirements
 1. Valid user account for ADNI website.
 2. Several Local Inputs:
